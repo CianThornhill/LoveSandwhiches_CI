@@ -4,6 +4,7 @@
 
 import gspread #imports entire gspread library
 from google.oauth2.service_account import Credentials #imports credentials class from Google oauth2 library
+from pprint import pprint
 
 #lists APIS that the program should access to run.
 SCOPE = [
@@ -69,7 +70,27 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Sales worksheet updated successfully \n")
 
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales stock and calulcate the surplus for each item type.
+    """
 
-data = get_sales_data()
-sales_data = [int(num) for num in data]
-update_sales_worksheet(sales_data)
+    print("Calculating surplus data... \n")
+    stock = SHEET.worksheet("stock").get_all_values()
+    #pprint(stock)
+    stock_row = stock[-1] #grabs last entry in stock_row list
+    print(stock_row)
+
+
+
+def main():
+    """
+    run all program functions
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_data(sales_data)
+
+print("Welcome to Love Sandwiches Data Automation")
+main()
